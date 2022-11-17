@@ -1,11 +1,14 @@
 package org.example;
 
+import org.example.clases.Libro;
+
 import java.sql.*;
 
 public class Main {
     private static String url = "jdbc:mysql://localhost:6603";
     private static String user ="root";
     private static String password ="alumno";
+    private Libro libro=new Libro(1,"2","3","11/12/2001","3",3,3);
     public static void main(String[] args) {
 
         try (Connection conexion=DriverManager.getConnection(url,user,password)) {
@@ -18,7 +21,7 @@ public class Main {
                 s.execute("CREATE DATABASE BIBLIOTECA");
                 s.execute("USE BIBLIOTECA");
                 createTable(s);
-                PreparedStatement insertarLibro=conexion.prepareStatement("INSERT INTO LIBRO");
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -44,5 +47,17 @@ public class Main {
             throw new RuntimeException(e);
         }
 
+    }
+    public static void insertTable(Connection conexion){
+        try {
+            PreparedStatement insertarLibro=conexion.prepareStatement("INSERT INTO LIBRO(CODIGO,TITULO, AUTOR ,EDITORIAL ,AÑO , ISBN) VALUES ("")" );
+            PreparedStatement insertarSocio=conexion.prepareStatement("INSERT INTO LIBRO(CODIGO,NOMBRE, APELLIDOS ,FECHA_NAC ,DOMICILIO , TELEFONO) VALUES ("")" );
+            PreparedStatement insertarPrestamo=conexion.prepareStatement("INSERT INTO LIBRO(COD_LIBRO,COD_SOCIO, FECHA_INI_PRESTAMO ,FECHA_FIN_PRESTAMO ,AÑO , ISBN) VALUES ("")" );
+            insertarLibro.execute();
+            insertarSocio.execute();
+            insertarPrestamo.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
